@@ -72,6 +72,5 @@ Route::get('/redirect', function (Request $request) {
 
 Route::get('/go/pastorlu', function (Request $request){
     $res = Http::get("https://x-resources.vercel.app/resources/801")->json();
-    $url = '/redirect?target=' . $res['data']['url'] . '?metric=PastorLu%26keyword=nav%26type=video';
-    return redirect()->away($url, $status=302);
+    return redirect()->away($res['data']['url'], $status=302);
 });
