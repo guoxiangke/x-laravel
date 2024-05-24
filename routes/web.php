@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Jobs\InfluxQueue;
 
@@ -64,7 +65,13 @@ Route::get('/redirect', function (Request $request) {
     ];
     // $protocolLine = $metric.$tags.' count=1i,target="'.$target.'",ip="'.$ip.'"';
     // ly-listen,category=603,bot=%E5%8F%8B4count=1i,target="ee230909.mp3"
-    // dd($protocolLine,$parts,$url,$ip);
+    // dd($protocolLine,$parts,$url);
     InfluxQueue::dispatchAfterResponse($protocolLine);
     return redirect()->away($url, $status, $headers);
+});
+
+Route::get('/go/pastorlu', function (Request $request){
+    $res = Http::get("https://x-resources.vercel.app/resources/801")->json();
+    $url = '/redirect?target=' . $res['data']['url'] . '?metric=PastorLu%26keyword=nav%26type=video';
+    return redirect()->away($url, $status=302);
 });
