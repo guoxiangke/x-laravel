@@ -1,17 +1,20 @@
 <?php
-// 获取完整的请求 URI
-$requestUri = $_SERVER['REQUEST_URI'];
-// 从请求 URI 中解析出路径部分
-$path = parse_url($requestUri, PHP_URL_PATH);
+// 获取完整的请求 URI, 从请求 URI 中解析出路径部分
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// /build/assets/app-C1-XIpUa.js
+// /build/assets/app-C24ONnXZ.css
+if (str_starts_with($path, "/build/assets/")) {
+	if(str_ends_with($path, ".js")){
+	    header('Content-Type: application/javascript; charset: UTF-8');
+	    echo require __DIR__ . '/../public/' . $path;
+	    return;
+	}
 
-echo '<pre>';
-echo $path;
-
-
-$dir    = __DIR__.'/../public/build/assets/';
-$files1 = scandir($dir);
-print_r($files1);
-
-return;
+	if(str_ends_with($path, ".css")){
+		header("Content-type: text/css; charset: UTF-8");
+		echo require __DIR__ . '/../public/' . $path;
+		return;
+	}
+}
 
 require __DIR__ . '/../public/index.php';
