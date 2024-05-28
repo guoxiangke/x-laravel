@@ -1,20 +1,26 @@
 {
     "version": 2,
     "functions": {
-        "api/*.php": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.7.0"
+        },
+        "api/assets.php": {
             "runtime": "vercel-php@0.7.0"
         }
     },
     "routes": [
         {
-            "src": "/build/assets/(^.+).(css|js)",
-            "dest": "/api/assets.php?type=$2&file=$1"
-        },
-        {
             "src": "/(.*)",
             "dest": "/api/index.php"
+        },
+        {
+            "src": "/build/assets/(^.+).(css|js)",
+            "dest": "/api/assets.php?type=$2&file=$1"
         }
     ],
+    "buildCommand": "vite build",
+    "outputDirectory": "public",
+    "public": true,
     "env": {
         "VERCEL_FORCE_NO_BUILD_CACHE": "1",
         "APP_CONFIG_CACHE": "/tmp/config.php",
