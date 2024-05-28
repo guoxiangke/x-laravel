@@ -8,6 +8,7 @@
         "php": "^8.2",
         "influxdata/influxdb-client-php": "^3.5",
         "laravel/framework": "^11.0",
+        "laravel/passport": "^12.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0"
