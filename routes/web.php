@@ -17,6 +17,25 @@ Route::view('profile', 'profile')
 
 require __DIR__.'/auth.php';
 
+// 防失联2重备案域名跳转链接 go.url/s=share
+// 127.0.0.1:8000/s?url=https://google.com/404?query=s&tag=test
+// 127.0.0.1:8000/s?url=https://google.com/404?query=s%26tag=test
+// https://go2024.simai.life/s?url=https://r2.check-in-out.online/OVagt1.JPG
+// https://go.check-in-out.online/s?url=https://r2.check-in-out.online/OVagt1.JPG
+Route::get('/s', function (Request $request) {
+    $url = $request->query('url');
+    $status = 302;
+    $headers = ['referer' => $url];
+
+    // TODO: 统计数据 GA or influxdb！ or Redis counts
+    // $ip = $request->header('x-forwarded-for')??$request->ip();
+    // XstatisticsLinkQueue::dispatchAfterResponse($ip, $url, $data);
+    
+    // table:
+    // IP: 127.0.0.1 url: https://go.url.xxx count=1
+    return redirect()->away($url, $status, $headers);
+});
+
 Route::get('/redirect', function (Request $request) {
     // dd($request->query());
 
